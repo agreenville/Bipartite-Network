@@ -1,7 +1,6 @@
 library(shiny)
 #library(datasets)
 library("bipartite")
-#library(mgcv)
 
 ui <- shinyUI(fluidPage(
   titlePanel("Bipartite Network analysis"),
