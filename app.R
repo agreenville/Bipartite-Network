@@ -2,7 +2,7 @@ library(shiny)
 library("bipartite")
 
 ui <- shinyUI(fluidPage(
-  titlePanel("Bipartite Network analysis"),
+  titlePanel("Bipartite Network Analysis"),
   tabsetPanel(
     tabPanel("Upload File",
              titlePanel("Uploading Files"),
