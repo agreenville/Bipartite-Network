@@ -71,8 +71,8 @@ ui <- shinyUI(fluidPage(
   )
 )
 
- # define function for data manipulaion
- # for dataset with abund data in last coln
+# define function for data manipulaion
+# for dataset with abund data in last coln
   net.abund.fn <- function(df){
     df2 <- df[-length(df)]
     ab <-  unlist(df[length(df)])
@@ -85,21 +85,17 @@ ui <- shinyUI(fluidPage(
     return(dd)
   }
  
-  # for dataset with no abundance data
+# for dataset with no abundance data
   net.fn <- function(df){
     row.names(df) <-df$X
     df<-df[,-1]
     df <- as.matrix(df)
     return(df)
   }
-  
-# to do: define plotting functions with and without abundance
-  # replace duplication below with functions
-  
-  
-server <- shinyServer(function(input, output) { #session
-  # added "session" because updateSelectInput requires it
 
+server <- shinyServer(function(input, output) { #session
+  
+  # Read data in
   data <- reactive({ 
     req(input$file1) ## ?req #  require that the input is available
     
@@ -110,11 +106,13 @@ server <- shinyServer(function(input, output) { #session
     
     return(df)
   })
-  
+
+  # Display data    
   output$contents <- renderTable({
     data()
   })
-  
+
+  # Display plot    
   output$MyPlot <- renderPlot({
 
     if(input$abund=='yes'){
@@ -136,7 +134,10 @@ server <- shinyServer(function(input, output) { #session
     }
     
   }, width=1500, height = 500)
-  
+
+  # Display indicies
+  # only one data type (i.e. with ot without abundance data) currently working.
+  # not sure why  
   output$indices <- renderPrint({
      if(input$abund=='no'){  
    
@@ -154,7 +155,8 @@ server <- shinyServer(function(input, output) { #session
     
 
   }, width=100)
-  
+
+  # Handle the plot download  
   output$downloadPlot <- downloadHandler(
     filename = function() {
       paste("network_plot", 'png', sep='.')
