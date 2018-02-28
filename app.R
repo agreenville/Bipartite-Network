@@ -38,14 +38,7 @@ ui <- shinyUI(fluidPage(
     tabPanel("Network plot",
              #pageWithSidebar(
                headerPanel('Bipartite Network plot') ,
-                #sidebarPanel(
-               #   
-               #   # "Empty inputs" - they will be updated after the data is uploaded
-               #   selectInput('xcol', 'X Variable', ""),
-               #   selectInput('ycol', 'Y Variable', "", selected = "")
-                 
-                  
-                #),
+               
                mainPanel(
                  downloadButton('downloadPlot', 'Download plot'),
                  plotOutput('MyPlot')
@@ -110,33 +103,21 @@ server <- shinyServer(function(input, output) { #session
   
   output$MyPlot <- renderPlot({
 
-        if(input$abund=='yes'){
-      # df2 <- data()[-length(data())]
-      # ab <-  unlist(data()[length(data())])
-      # 
-      # row.names(df2) <-df2$X
-      # df2<-df2[,-1]
-      # df2 <- as.matrix(df2)
-      # names(ab) <- rownames(df2)
+    if(input$abund=='yes'){
       
-    dd<-net.abund.fn(data())    
+      dd<-net.abund.fn(data())    
       
-     plotweb(dd$network, low.abun=dd$abund, high.y=1.25,low.y = 0.7, high.abun.col='lightblue',
+      plotweb(dd$network, low.abun=dd$abund, high.y=1.25,low.y = 0.7, high.abun.col='lightblue',
              low.abun.col='lightgreen', col.interaction="grey90",
              abuns.type='independent', labsize=1.5, text.rot=90)
      
      }
     
     if(input$abund=='no'){
-    #   df2<-data()
-    # 
-    # row.names(df2) <-df2$X
-    # df2<-df2[,-1]
-    # df2 <- as.matrix(df2)
     
-    df2 <- net.fn(data())
+      df2 <- net.fn(data())
     
-    plotweb(df2, high.y=1.25,low.y = 0.7, col.high='lightblue', col.low = 'lightgreen',
+      plotweb(df2, high.y=1.25,low.y = 0.7, col.high='lightblue', col.low = 'lightgreen',
             col.interaction="grey90", labsize=1.5, text.rot=90)
     }
     
@@ -145,10 +126,6 @@ server <- shinyServer(function(input, output) { #session
   output$indices <- renderPrint({
   
     if(input$abund=='yes'){  
-      # df2<- data()[-length(data())]
-      # row.names(df2) <-df2$X
-      # df2<-df2[,-1]
-      # df2 <- as.matrix(df2)
       
       dd<-net.abund.fn(data())
       
@@ -156,13 +133,10 @@ server <- shinyServer(function(input, output) { #session
     } 
     
     if(input$abund=='no'){  
-    # df2<-data()
-    # row.names(df2) <-df2$X
-    # df2<-df2[,-1]
-    # df2 <- as.matrix(df2)
-    df2 <- net.fn(data())  
+   
+      df2 <- net.fn(data())  
     
-    networklevel(df2)
+      networklevel(df2)
   }
     }, width=100)
   
@@ -173,39 +147,27 @@ server <- shinyServer(function(input, output) { #session
     
     content = function(file) {
       
-      if(input$abund=='yes'){
-        # df2 <- data()[-length(data())]
-        # ab <-  unlist(data()[length(data())])
-        # 
-        # row.names(df2) <-df2$X
-        # df2<-df2[,-1]
-        # df2 <- as.matrix(df2)
-        # names(ab) <- rownames(df2)
+    if(input$abund=='yes'){
         
-        dd<-net.abund.fn(data())
+      dd<-net.abund.fn(data())
         
         
-        png(file, width = 300, height = 190, units = 'mm', res = 300)
+      png(file, width = 300, height = 190, units = 'mm', res = 300)
         #par(mfrow=c(3,1), mar=c(5.1, 4.1, 4.1, 9.5))
-        plotweb(dd$network, low.abun=dd$abund, high.abun.col='lightblue' ,low.abun.col='lightgreen' ,
+      plotweb(dd$network, low.abun=dd$abund, high.abun.col='lightblue' ,low.abun.col='lightgreen' ,
                 col.interaction="grey90", abuns.type='independent', labsize=1.5,
                 high.y=1.25,low.y = 0.7, text.rot=90)
-        dev.off()
+      dev.off()
       }
       
-      if(input$abund=='no'){
-        # df2<-data()
-        # 
-        # row.names(df2) <-df2$X
-        # df2<-df2[,-1]
-        # df2 <- as.matrix(df2)
+    if(input$abund=='no'){
         
-        df2 <- net.fn(data())
+      df2 <- net.fn(data())
         
-        png(file, width = 300, height = 190, units = 'mm', res = 300)
-        plotweb(df2, col.interaction="grey90", col.high='lightblue', col.low = 'lightgreen',
+      png(file, width = 300, height = 190, units = 'mm', res = 300)
+      plotweb(df2, col.interaction="grey90", col.high='lightblue', col.low = 'lightgreen',
                 labsize=1.5,high.y=1.25,low.y = 0.7, text.rot=90)
-        dev.off()
+      dev.off()
         }
     })
 })
