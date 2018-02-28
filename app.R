@@ -1,5 +1,5 @@
 library(shiny)
-library("bipartite")
+library(bipartite)
 
 ui <- shinyUI(fluidPage(
   titlePanel("Bipartite Network Analysis"),
