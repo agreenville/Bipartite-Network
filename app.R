@@ -8,6 +8,11 @@ ui <- shinyUI(fluidPage(
              titlePanel("Uploading Files"),
              sidebarLayout(
                sidebarPanel(
+                 h4("Instructions:"),
+                 p("Save data file as a csv, with rows as plant species and columns
+                   as invertebrate species. If you have the abundance of each plant species,
+                   add abundance data as the last column."),
+                 
                  fileInput('file1', 'Choose CSV File',
                            accept=c('text/csv', 
                                     'text/comma-separated-values,text/plain', 
@@ -27,9 +32,18 @@ ui <- shinyUI(fluidPage(
                                 'Double Quote'='"',
                                 'Single Quote'="'"),
                               '"'),
-                 radioButtons("abund", "Abundance data", c(Yes="yes", No="no"))
+                 radioButtons("abund", "Abundance data", c(Yes="yes", No="no")),
+                 
+                 h4("Credits:"),
+                 p("The Bipartite Network analysis app was created with", em("Shiny"), 
+                    "and", em("Bipartite"), "package for",
+                 span(em("R.")),
+                  "By Aaron Greenville."),
+                 p("Source code can be found on", a("GitHub.",
+                    href="https://github.com/agreenville/Bipartite-Network"))
                  
                ),
+               
                mainPanel(
                  tableOutput('contents')
                )
@@ -124,7 +138,13 @@ server <- shinyServer(function(input, output) { #session
   }, width=1500, height = 500)
   
   output$indices <- renderPrint({
-  
+     if(input$abund=='no'){  
+   
+      df2 <- net.fn(data())  
+    
+      networklevel(df2)
+     } 
+    
     if(input$abund=='yes'){  
       
       dd<-net.abund.fn(data())
@@ -132,13 +152,8 @@ server <- shinyServer(function(input, output) { #session
       networklevel(dd$network)
     } 
     
-    if(input$abund=='no'){  
-   
-      df2 <- net.fn(data())  
-    
-      networklevel(df2)
-  }
-    }, width=100)
+
+  }, width=100)
   
   output$downloadPlot <- downloadHandler(
     filename = function() {
@@ -150,10 +165,8 @@ server <- shinyServer(function(input, output) { #session
     if(input$abund=='yes'){
         
       dd<-net.abund.fn(data())
-        
-        
+      
       png(file, width = 300, height = 190, units = 'mm', res = 300)
-        #par(mfrow=c(3,1), mar=c(5.1, 4.1, 4.1, 9.5))
       plotweb(dd$network, low.abun=dd$abund, high.abun.col='lightblue' ,low.abun.col='lightgreen' ,
                 col.interaction="grey90", abuns.type='independent', labsize=1.5,
                 high.y=1.25,low.y = 0.7, text.rot=90)
