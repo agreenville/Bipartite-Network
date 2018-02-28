@@ -4,7 +4,7 @@ library(bipartite)
 ui <- shinyUI(fluidPage(
   titlePanel("Bipartite Network Analysis"),
   tabsetPanel(
-    tabPanel("Upload File",
+    tabPanel("Upload file",
              titlePanel("Uploading Files"),
              sidebarLayout(
                sidebarPanel(
@@ -40,7 +40,8 @@ ui <- shinyUI(fluidPage(
                  span(em("R.")),
                   "By Aaron Greenville."),
                  p("Source code can be found on", a("GitHub.",
-                    href="https://github.com/agreenville/Bipartite-Network"))
+                    href="https://github.com/agreenville/Bipartite-Network")),
+                p("Version 0.5") 
                  
                ),
                
