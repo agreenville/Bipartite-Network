@@ -134,8 +134,9 @@ server <- shinyServer(function(input, output) { #session
       df2 <- as.matrix(df2)
       names(ab) <- rownames(df2)
       
-     plotweb(df2, low.abun=ab, high.abun.col='lightblue' ,low.abun.col='lightgreen' ,
-              col.interaction="grey90", abuns.type='independent', labsize=1.5, text.rot=90)
+     plotweb(df2, low.abun=ab, high.y=1.25,low.y = 0.7, high.abun.col='lightblue',
+             low.abun.col='lightgreen', col.interaction="grey90",
+             abuns.type='independent', labsize=1.5, text.rot=90)
      
      }
     
@@ -146,7 +147,8 @@ server <- shinyServer(function(input, output) { #session
     df2<-df2[,-1]
     df2 <- as.matrix(df2)
     
-    plotweb(df2, col.high='blue', col.low = 'green', labsize=1.5, text.rot=90)
+    plotweb(df2, high.y=1.25,low.y = 0.7, col.high='lightblue', col.low = 'lightgreen',
+            col.interaction="grey90", labsize=1.5, text.rot=90)
     }
     
   }, width=1500, height = 500)
