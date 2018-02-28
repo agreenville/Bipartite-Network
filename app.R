@@ -1,5 +1,4 @@
 library(shiny)
-#library(datasets)
 library("bipartite")
 
 ui <- shinyUI(fluidPage(
@@ -190,10 +189,11 @@ server <- shinyServer(function(input, output) { #session
         names(ab) <- rownames(df2)
         
         
-        png(file)
+        png(file, width = 300, height = 190, units = 'mm', res = 300)
         #par(mfrow=c(3,1), mar=c(5.1, 4.1, 4.1, 9.5))
         plotweb(df2, low.abun=ab, high.abun.col='lightblue' ,low.abun.col='lightgreen' ,
-                col.interaction="grey90", abuns.type='independent', labsize=1.5, text.rot=90)
+                col.interaction="grey90", abuns.type='independent', labsize=1.5,
+                high.y=1.25,low.y = 0.7, text.rot=90)
         dev.off()
       }
       
@@ -204,8 +204,9 @@ server <- shinyServer(function(input, output) { #session
         df2<-df2[,-1]
         df2 <- as.matrix(df2)
 
-        png(file)
-        plotweb(df2, col.high='blue', col.low = 'green', labsize=1.5, text.rot=90)
+        png(file, width = 300, height = 190, units = 'mm', res = 300)
+        plotweb(df2, col.interaction="grey90", col.high='lightblue', col.low = 'lightgreen',
+                labsize=1.5,high.y=1.25,low.y = 0.7, text.rot=90)
         dev.off()
         }
       
