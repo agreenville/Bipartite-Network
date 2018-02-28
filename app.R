@@ -53,52 +53,53 @@ ui <- shinyUI(fluidPage(
              ),
     
     tabPanel("Indices",
-             #pageWithSidebar(
              headerPanel('Network indices') ,
-             # sidebarPanel(
-             #   
-             #   # "Empty inputs" - they will be updated after the data is uploaded
-             #   selectInput('xcol', 'X Variable', ""),
-             #   selectInput('ycol', 'Y Variable', "", selected = "")
-             
-             #),
+            
              mainPanel(
                verbatimTextOutput('indices')
              )
+      )
+      
     )
-    
-    
-    
-    )
-    
   )
 )
-#)
 
+ # define function for data manipulaion
+ # for dataset with abund data in last coln
+  net.abund.fn <- function(df){
+    df2 <- df[-length(df)]
+    ab <-  unlist(df[length(df)])
+    
+    row.names(df2) <-df2$X
+    df2<-df2[,-1]
+    df2 <- as.matrix(df2)
+    names(ab) <- rownames(df2)
+    dd <- list(network = df2,abund = ab)
+    return(dd)
+  }
+ 
+  # for dataset with no abundance data
+  net.fn <- function(df){
+    row.names(df) <-df$X
+    df<-df[,-1]
+    df <- as.matrix(df)
+    return(df)
+  }
+  
+# to do: define plotting functions with and without abundance
+  # replace duplication below with functions
+  
+  
 server <- shinyServer(function(input, output) { #session
   # added "session" because updateSelectInput requires it
-  
-  
+
   data <- reactive({ 
     req(input$file1) ## ?req #  require that the input is available
     
     inFile <- input$file1 
     
-    # tested with a following dataset: write.csv(mtcars, "mtcars.csv")
-    # and                              write.csv(iris, "iris.csv")
     df <- read.csv(inFile$datapath, header = input$header, sep = input$sep,
                    quote = input$quote)
-    
-    
-    # Update inputs (you could create an observer with both updateSel...)
-    # You can also constraint your choices. If you wanted select only numeric
-    # variables you could set "choices = sapply(df, is.numeric)"
-    # It depends on what do you want to do later on.
-    
-    # updateSelectInput(session, inputId = 'xcol', label = 'X Variable',
-    #                   choices = names(df), selected = names(df))
-    # updateSelectInput(session, inputId = 'ycol', label = 'Y Variable',
-    #                   choices = names(df), selected = names(df)[2])
     
     return(df)
   })
@@ -108,44 +109,32 @@ server <- shinyServer(function(input, output) { #session
   })
   
   output$MyPlot <- renderPlot({
-    # for a histogram: remove the second variable (it has to be numeric as well):
-    # x    <- data()[, c(input$xcol, input$ycol)]
-    # bins <- nrow(data())
-    # hist(x, breaks = bins, col = 'darkgray', border = 'white')
-    
-    # Correct way:
-    # x    <- data()[, input$xcol]
-    # bins <- nrow(data())
-    # hist(x, breaks = bins, col = 'darkgray', border = 'white')
-    
-    
-    # I Since you have two inputs I decided to make a scatterplot
-    # x <- data()[, c(input$xcol, input$ycol)]
-    # plot(x)
-    
-    #df2<-data()
-  
-    if(input$abund=='yes'){
-      df2 <- data()[-length(data())]
-      ab <-  unlist(data()[length(data())])
+
+        if(input$abund=='yes'){
+      # df2 <- data()[-length(data())]
+      # ab <-  unlist(data()[length(data())])
+      # 
+      # row.names(df2) <-df2$X
+      # df2<-df2[,-1]
+      # df2 <- as.matrix(df2)
+      # names(ab) <- rownames(df2)
       
-      row.names(df2) <-df2$X
-      df2<-df2[,-1]
-      df2 <- as.matrix(df2)
-      names(ab) <- rownames(df2)
+    dd<-net.abund.fn(data())    
       
-     plotweb(df2, low.abun=ab, high.y=1.25,low.y = 0.7, high.abun.col='lightblue',
+     plotweb(dd$network, low.abun=dd$abund, high.y=1.25,low.y = 0.7, high.abun.col='lightblue',
              low.abun.col='lightgreen', col.interaction="grey90",
              abuns.type='independent', labsize=1.5, text.rot=90)
      
      }
     
     if(input$abund=='no'){
-      df2<-data()
+    #   df2<-data()
+    # 
+    # row.names(df2) <-df2$X
+    # df2<-df2[,-1]
+    # df2 <- as.matrix(df2)
     
-    row.names(df2) <-df2$X
-    df2<-df2[,-1]
-    df2 <- as.matrix(df2)
+    df2 <- net.fn(data())
     
     plotweb(df2, high.y=1.25,low.y = 0.7, col.high='lightblue', col.low = 'lightgreen',
             col.interaction="grey90", labsize=1.5, text.rot=90)
@@ -156,19 +145,22 @@ server <- shinyServer(function(input, output) { #session
   output$indices <- renderPrint({
   
     if(input$abund=='yes'){  
-      df2<- data()[-length(data())]
-      row.names(df2) <-df2$X
-      df2<-df2[,-1]
-      df2 <- as.matrix(df2)
+      # df2<- data()[-length(data())]
+      # row.names(df2) <-df2$X
+      # df2<-df2[,-1]
+      # df2 <- as.matrix(df2)
       
-      networklevel(df2)
+      dd<-net.abund.fn(data())
+      
+      networklevel(dd$network)
     } 
     
     if(input$abund=='no'){  
-    df2<-data()
-    row.names(df2) <-df2$X
-    df2<-df2[,-1]
-    df2 <- as.matrix(df2)
+    # df2<-data()
+    # row.names(df2) <-df2$X
+    # df2<-df2[,-1]
+    # df2 <- as.matrix(df2)
+    df2 <- net.fn(data())  
     
     networklevel(df2)
   }
@@ -182,37 +174,39 @@ server <- shinyServer(function(input, output) { #session
     content = function(file) {
       
       if(input$abund=='yes'){
-        df2 <- data()[-length(data())]
-        ab <-  unlist(data()[length(data())])
+        # df2 <- data()[-length(data())]
+        # ab <-  unlist(data()[length(data())])
+        # 
+        # row.names(df2) <-df2$X
+        # df2<-df2[,-1]
+        # df2 <- as.matrix(df2)
+        # names(ab) <- rownames(df2)
         
-        row.names(df2) <-df2$X
-        df2<-df2[,-1]
-        df2 <- as.matrix(df2)
-        names(ab) <- rownames(df2)
+        dd<-net.abund.fn(data())
         
         
         png(file, width = 300, height = 190, units = 'mm', res = 300)
         #par(mfrow=c(3,1), mar=c(5.1, 4.1, 4.1, 9.5))
-        plotweb(df2, low.abun=ab, high.abun.col='lightblue' ,low.abun.col='lightgreen' ,
+        plotweb(dd$network, low.abun=dd$abund, high.abun.col='lightblue' ,low.abun.col='lightgreen' ,
                 col.interaction="grey90", abuns.type='independent', labsize=1.5,
                 high.y=1.25,low.y = 0.7, text.rot=90)
         dev.off()
       }
       
       if(input$abund=='no'){
-        df2<-data()
-
-        row.names(df2) <-df2$X
-        df2<-df2[,-1]
-        df2 <- as.matrix(df2)
-
+        # df2<-data()
+        # 
+        # row.names(df2) <-df2$X
+        # df2<-df2[,-1]
+        # df2 <- as.matrix(df2)
+        
+        df2 <- net.fn(data())
+        
         png(file, width = 300, height = 190, units = 'mm', res = 300)
         plotweb(df2, col.interaction="grey90", col.high='lightblue', col.low = 'lightgreen',
                 labsize=1.5,high.y=1.25,low.y = 0.7, text.rot=90)
         dev.off()
         }
-      
-      
     })
 })
 
