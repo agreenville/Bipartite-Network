@@ -41,7 +41,9 @@ ui <- shinyUI(fluidPage(
                   "By Aaron Greenville."),
                  p("Source code can be found on", a("GitHub.",
                     href="https://github.com/agreenville/Bipartite-Network")),
-                 p("MIT License"),
+                 a("MIT License",
+                   href="https://github.com/agreenville/Bipartite-Network/blob/master/LICENSE"),
+                 p(""),
                  p("Version 0.5") 
                  
                ),
