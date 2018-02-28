@@ -27,7 +27,8 @@ ui <- shinyUI(fluidPage(
                               c(None='',
                                 'Double Quote'='"',
                                 'Single Quote'="'"),
-                              '"')
+                              '"'),
+                 radioButtons("abund", "Abundance data", c(Yes="yes", No="no"))
                  
                ),
                mainPanel(
@@ -38,16 +39,18 @@ ui <- shinyUI(fluidPage(
     tabPanel("Network plot",
              #pageWithSidebar(
                headerPanel('Bipartite Network plot') ,
-               # sidebarPanel(
+                #sidebarPanel(
                #   
                #   # "Empty inputs" - they will be updated after the data is uploaded
                #   selectInput('xcol', 'X Variable', ""),
                #   selectInput('ycol', 'Y Variable', "", selected = "")
                  
-               #),
+                  
+                #),
                mainPanel(
+                 downloadButton('downloadPlot', 'Download plot'),
                  plotOutput('MyPlot')
-               )
+                          )
              ),
     
     tabPanel("Indices",
@@ -121,24 +124,93 @@ server <- shinyServer(function(input, output) { #session
     # x <- data()[, c(input$xcol, input$ycol)]
     # plot(x)
     
-    df2<-data()
+    #df2<-data()
+  
+    if(input$abund=='yes'){
+      df2 <- data()[-length(data())]
+      ab <-  unlist(data()[length(data())])
+      
+      row.names(df2) <-df2$X
+      df2<-df2[,-1]
+      df2 <- as.matrix(df2)
+      names(ab) <- rownames(df2)
+      
+     plotweb(df2, low.abun=ab, high.abun.col='lightblue' ,low.abun.col='lightgreen' ,
+              col.interaction="grey90", abuns.type='independent', labsize=1.5, text.rot=90)
+     
+     }
+    
+    if(input$abund=='no'){
+      df2<-data()
+    
     row.names(df2) <-df2$X
     df2<-df2[,-1]
     df2 <- as.matrix(df2)
     
-    plotweb(df2, labsize=1.5, text.rot=90)
+    plotweb(df2, col.high='blue', col.low = 'green', labsize=1.5, text.rot=90)
+    }
     
   }, width=1500, height = 500)
   
   output$indices <- renderPrint({
+  
+    if(input$abund=='yes'){  
+      df2<- data()[-length(data())]
+      row.names(df2) <-df2$X
+      df2<-df2[,-1]
+      df2 <- as.matrix(df2)
+      
+      networklevel(df2)
+    } 
+    
+    if(input$abund=='no'){  
     df2<-data()
     row.names(df2) <-df2$X
     df2<-df2[,-1]
     df2 <- as.matrix(df2)
     
     networklevel(df2)
+  }
+    }, width=100)
+  
+  output$downloadPlot <- downloadHandler(
+    filename = function() {
+      paste("network_plot", 'png', sep='.')
+      },
     
-  }, width=100)
+    content = function(file) {
+      
+      if(input$abund=='yes'){
+        df2 <- data()[-length(data())]
+        ab <-  unlist(data()[length(data())])
+        
+        row.names(df2) <-df2$X
+        df2<-df2[,-1]
+        df2 <- as.matrix(df2)
+        names(ab) <- rownames(df2)
+        
+        
+        png(file)
+        #par(mfrow=c(3,1), mar=c(5.1, 4.1, 4.1, 9.5))
+        plotweb(df2, low.abun=ab, high.abun.col='lightblue' ,low.abun.col='lightgreen' ,
+                col.interaction="grey90", abuns.type='independent', labsize=1.5, text.rot=90)
+        dev.off()
+      }
+      
+      if(input$abund=='no'){
+        df2<-data()
+
+        row.names(df2) <-df2$X
+        df2<-df2[,-1]
+        df2 <- as.matrix(df2)
+
+        png(file)
+        plotweb(df2, col.high='blue', col.low = 'green', labsize=1.5, text.rot=90)
+        dev.off()
+        }
+      
+      
+    })
 })
 
 shinyApp(ui, server)
