@@ -141,22 +141,24 @@ server <- shinyServer(function(input, output) { #session
 
   # Display indicies
   # only one data type (i.e. with ot without abundance data) currently working.
-  # not sure why  
+  # 2nd if() works. not sure why  
   output$indices <- renderPrint({
-     if(input$abund=='no'){  
-   
-      df2 <- net.fn(data())  
-    
-      networklevel(df2)
-     } 
-    
+     
     if(input$abund=='yes'){  
       
       dd<-net.abund.fn(data())
       
-      networklevel(dd$network)
+      #networklevel(dd$network)
+      
+      data.frame(Nestedness = nested(dd$network, "ALL"))
     } 
     
+    else{ #(input$#abund=='no'){
+      
+      df2 <- net.fn(data())
+      #networklevel(df2)
+      data.frame(Nestedness = nested(df2, "ALL"))
+    }
 
   }, width=100)
 
