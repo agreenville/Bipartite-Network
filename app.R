@@ -44,35 +44,41 @@ ui <- shinyUI(fluidPage(
                  a("MIT License",
                    href="https://github.com/agreenville/Bipartite-Network/blob/master/LICENSE"),
                  p(""),
-                 p("Version 0.6") 
+                 p("Version 0.7") 
                  
                ),
                
                mainPanel(
                  tableOutput('contents')
+                
                )
              )
     ),
-    tabPanel("Network plot",
+    tabPanel("Network graph",
              #pageWithSidebar(
-               headerPanel('Bipartite Network plot') ,
+               headerPanel('Bipartite Network Graph') ,
                
                mainPanel(
-                 downloadButton('downloadPlot', 'Download plot'),
+                 downloadButton('downloadPlot', 'Download graph'),
                  plotOutput('MyPlot')
-                          )
+                 )
              ),
     
-    tabPanel("Indices",
-             headerPanel('Network indices') ,
+    tabPanel("Nestedness",
+             headerPanel('Nestedness') ,
             
              mainPanel(
-               splitLayout(cellWidths = c("25%", "50%", "50%"), verbatimTextOutput('indices'),
-                           plotOutput("nest.matrix"), plotOutput("net.sort.matrix"))
+               downloadButton('downloadMatrix', 'Download matrix'),
+               splitLayout(cellWidths = c("10%", "60%", "60%"), verbatimTextOutput('indices'),
+                           plotOutput("nest.matrix"), plotOutput("net.sort.matrix")),
+               
+               hr(),
+               print("If you cannot see the entire matrix, hover mouse over it to reveal scroll bars.")
                            
              )
-      )
-      
+             
+        )
+    
     )
   )
 )
@@ -150,7 +156,7 @@ server <- shinyServer(function(input, output) { #session
       
       #networklevel(dd$network) # calc different network indices
       
-      data.frame(Nestedness = nested(dd$network, "ALL")) # calc different nestedness indices
+      nested(dd$network, "NODF2") # calc different nestedness indices
       
     } 
     
@@ -158,7 +164,7 @@ server <- shinyServer(function(input, output) { #session
       
       df2 <- net.fn(data())
       #networklevel(df2) # calc different network indices
-      data.frame(Nestedness = nested(df2, "ALL")) # calc different nestedness indices NODF2 = NODF on NeD site
+      nested(df2, "NODF2") # calc different nestedness indices NODF2 = NODF on NeD site
     }
 
   }, width=100)
@@ -236,6 +242,47 @@ server <- shinyServer(function(input, output) { #session
                 labsize=1.5,high.y=1.25,low.y = 0.7, text.rot=90)
       dev.off()
         }
+    })
+  
+  # Handle the matrix download  
+  output$downloadMatrix <- downloadHandler(
+    filename = function() {
+      paste("network_matrix", 'png', sep='.')
+    },
+    
+    content = function(file) {
+      
+      if(input$abund=='yes'){
+        
+        dd<-net.abund.fn(data())
+        
+        png(file, width = 150, height = 190, units = 'mm', res = 300)
+        par(mfrow=c(2,1))
+        visweb(dd$network, labsize=1.25, type = "none") # matrix as data is entered.
+        title("Original matrix", line =-1)
+        
+        visweb(dd$network, labsize=1.25, type = "nested") # sorted by row/colSums
+        title("Ordered matrix", line=-1)
+        par(mfrow=c(1,1))
+        
+        dev.off()
+      
+      }
+      
+      if(input$abund=='no'){
+        
+        df2 <- net.fn(data())
+        
+        png(file, width = 150, height = 190, units = 'mm', res = 300)
+        par(mfrow=c(2,1))
+        visweb(df2, labsize=1.25, type = "none") # matrix as data is entered.
+        title("Original matrix", line =-1)
+        
+        visweb(df2, labsize=1.25, type = "nested") # sorted by row/colSums
+        title("Ordered matrix", line=-1)
+        par(mfrow=c(1,1))
+        dev.off()
+      }
     })
 })
 
