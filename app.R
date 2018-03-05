@@ -67,7 +67,9 @@ ui <- shinyUI(fluidPage(
              headerPanel('Network indices') ,
             
              mainPanel(
-               verbatimTextOutput('indices')
+               splitLayout(cellWidths = c("25%", "50%", "50%"), verbatimTextOutput('indices'),
+                           plotOutput("nest.matrix"), plotOutput("net.sort.matrix"))
+                           
              )
       )
       
@@ -126,8 +128,7 @@ server <- shinyServer(function(input, output) { #session
       plotweb(dd$network, low.abun=dd$abund, high.y=1.25,low.y = 0.7, high.abun.col='lightblue',
              low.abun.col='lightgreen', col.interaction="grey90",
              abuns.type='independent', labsize=1.5, text.rot=90)
-     
-     }
+          }
     
     if(input$abund=='no'){
     
@@ -150,17 +151,63 @@ server <- shinyServer(function(input, output) { #session
       #networklevel(dd$network) # calc different network indices
       
       data.frame(Nestedness = nested(dd$network, "ALL")) # calc different nestedness indices
+      
     } 
     
     else{ #(input$#abund=='no'){
       
       df2 <- net.fn(data())
       #networklevel(df2) # calc different network indices
-      data.frame(Nestedness = nested(df2, "ALL")) # calc different nestedness indices
+      data.frame(Nestedness = nested(df2, "ALL")) # calc different nestedness indices NODF2 = NODF on NeD site
     }
 
   }, width=100)
-
+################  
+  output$nest.matrix <- renderPlot({
+    
+    if(input$abund=='yes'){
+      
+      dd<-net.abund.fn(data())    
+      
+      
+      visweb(dd$network, labsize=1.5, type = "none") # matrix as data is entered.
+      title("original matrix", line =-20.5)
+    }
+    
+    if(input$abund=='no'){
+      
+      df2 <- net.fn(data())
+      
+       
+      visweb(df2, labsize=1.5,  type = "none") # matrix as data is entered.
+     title("Original matrix", line =-20.5)
+    }
+    
+  }, width=600, height = 300)
+  
+  output$net.sort.matrix<- renderPlot({
+    
+    if(input$abund=='yes'){
+      
+      dd<-net.abund.fn(data())    
+      
+      
+      visweb(dd$network, labsize=1.5, type = "nested") # sorted by row/colSums
+      title("Ordered matrix", line=-20.5)
+    }
+    
+    if(input$abund=='no'){
+      
+      df2 <- net.fn(data())
+      
+      
+      visweb(df2, labsize=1.5,  type = "nested") # sorted by row/colSums.
+      title("Ordered matrix", line=-20.5)
+    }
+    
+  }, width=600, height = 300)
+  
+  
   # Handle the plot download  
   output$downloadPlot <- downloadHandler(
     filename = function() {
