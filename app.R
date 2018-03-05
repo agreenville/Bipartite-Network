@@ -171,7 +171,7 @@ server <- shinyServer(function(input, output) { #session
       
       
       visweb(dd$network, labsize=1.5, type = "none") # matrix as data is entered.
-      title("original matrix", line =-20.5)
+      title("Original matrix", line =-20.5)
     }
     
     if(input$abund=='no'){
