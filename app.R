@@ -1,5 +1,6 @@
 library(shiny)
 library(bipartite)
+source("R/Network_functions.R")
 
 ui <- shinyUI(fluidPage(
   titlePanel("Bipartite Network Analysis"),
@@ -178,8 +179,8 @@ server <- shinyServer(function(input, output) { #session
       dd<-net.abund.fn(data())    
       
       
-      visweb(dd$network, labsize=1.5, type = "none") # matrix as data is entered.
-      title("Original matrix", line =-20.5)
+      visweb2(dd$network, main="Original matrix", labsize=1.5, type = "none") # matrix as data is entered.
+      #title("Original matrix", line =-20.5)
     }
     
     if(input$abund=='no'){
@@ -187,11 +188,11 @@ server <- shinyServer(function(input, output) { #session
       df2 <- net.fn(data())
       
        
-      visweb(df2, labsize=1.5,  type = "none") # matrix as data is entered.
-     title("Original matrix", line =-20.5)
+      visweb2(df2,main="Original matrix", labsize=1.5,  type = "none") # matrix as data is entered.
+     #title("Original matrix", line =-20.5)
     }
     
-  }, width=600, height = 300)
+  }, width=550, height = 300)
   
   output$net.sort.matrix<- renderPlot({
     
@@ -200,8 +201,8 @@ server <- shinyServer(function(input, output) { #session
       dd<-net.abund.fn(data())    
       
       
-      visweb(dd$network, labsize=1.5, type = "nested") # sorted by row/colSums
-      title("Ordered matrix", line=-20.5)
+      visweb2(dd$network, main="Ordered matrix", labsize=1.5, type = "nested") # sorted by row/colSums
+      #title("Ordered matrix", line=-20.5)
     }
     
     if(input$abund=='no'){
@@ -209,11 +210,11 @@ server <- shinyServer(function(input, output) { #session
       df2 <- net.fn(data())
       
       
-      visweb(df2, labsize=1.5,  type = "nested") # sorted by row/colSums.
-      title("Ordered matrix", line=-20.5)
+      visweb2(df2, main="Ordered matrix", labsize=1.5,  type = "nested") # sorted by row/colSums.
+      #title("Ordered matrix", line=-20.5)
     }
     
-  }, width=600, height = 300)
+  }, width=550, height = 300)
   
   
   # Handle the plot download  
@@ -260,11 +261,11 @@ server <- shinyServer(function(input, output) { #session
         
         png(file, width = 150, height = 190, units = 'mm', res = 300)
         par(mfrow=c(2,1))
-        visweb(dd$network, labsize=1.25, type = "none") # matrix as data is entered.
-        title("Original matrix", line =-1)
+        visweb2(dd$network, main="Original matrix",  labsize=1.25, type = "none") # matrix as data is entered.
+        #title("Original matrix", line =-1)
         
-        visweb(dd$network, labsize=1.25, type = "nested") # sorted by row/colSums
-        title("Ordered matrix", line=-1)
+        visweb2(dd$network, main="Ordered matrix", labsize=1.25, type = "nested") # sorted by row/colSums
+        #title("Ordered matrix", line=-1)
         par(mfrow=c(1,1))
         
         dev.off()
@@ -277,11 +278,11 @@ server <- shinyServer(function(input, output) { #session
         
         png(file, width = 150, height = 190, units = 'mm', res = 300)
         par(mfrow=c(2,1))
-        visweb(df2, labsize=1.25, type = "none") # matrix as data is entered.
-        title("Original matrix", line =-1)
+        visweb2(df2, main="Original matrix",labsize=1.25, type = "none") # matrix as data is entered.
+        #title("Original matrix", line =-1)
         
-        visweb(df2, labsize=1.25, type = "nested") # sorted by row/colSums
-        title("Ordered matrix", line=-1)
+        visweb2(df2,main="Ordered matrix", labsize=1.25, type = "nested") # sorted by row/colSums
+        #title("Ordered matrix", line=-1)
         par(mfrow=c(1,1))
         dev.off()
       }
