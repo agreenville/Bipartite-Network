@@ -132,7 +132,7 @@ server <- shinyServer(function(input, output) { #session
       
       dd<-net.abund.fn(data())    
       
-      plotweb(dd$network, low.abun=dd$abund, high.y=1.25,low.y = 0.7, high.abun.col='lightblue',
+      plotweb(dd$network, low.abun=dd$abund, high.y=1.25,low.y = 0.7, high.abun.col='darkblue',
              low.abun.col='lightgreen', col.interaction="grey90",
              abuns.type='independent', labsize=1.5, text.rot=90)
           }
@@ -141,7 +141,7 @@ server <- shinyServer(function(input, output) { #session
     
       df2 <- net.fn(data())
     
-      plotweb(df2, high.y=1.25,low.y = 0.7, col.high='lightblue', col.low = 'lightgreen',
+      plotweb(df2, high.y=1.25,low.y = 0.7, col.high='darkblue', col.low = 'lightgreen',
             col.interaction="grey90", labsize=1.5, text.rot=90)
     }
     
@@ -171,7 +171,6 @@ server <- shinyServer(function(input, output) { #session
   }, width=100)
  
   # Display matrix
-  # need a better way to add title
   output$nest.matrix <- renderPlot({
     
     if(input$abund=='yes'){
@@ -230,7 +229,7 @@ server <- shinyServer(function(input, output) { #session
       dd<-net.abund.fn(data())
       
       png(file, width = 300, height = 190, units = 'mm', res = 300)
-      plotweb(dd$network, low.abun=dd$abund, high.abun.col='lightblue' ,low.abun.col='lightgreen' ,
+      plotweb(dd$network, low.abun=dd$abund, high.abun.col='darkblue' ,low.abun.col='lightgreen' ,
                 col.interaction="grey90", abuns.type='independent', labsize=1.5,
                 high.y=1.25,low.y = 0.7, text.rot=90)
       dev.off()
@@ -241,7 +240,7 @@ server <- shinyServer(function(input, output) { #session
       df2 <- net.fn(data())
         
       png(file, width = 300, height = 190, units = 'mm', res = 300)
-      plotweb(df2, col.interaction="grey90", col.high='lightblue', col.low = 'lightgreen',
+      plotweb(df2, col.interaction="grey90", col.high='darkblue', col.low = 'lightgreen',
                 labsize=1.5,high.y=1.25,low.y = 0.7, text.rot=90)
       dev.off()
         }
