@@ -44,7 +44,7 @@ ui <- shinyUI(fluidPage(
                  a("MIT License",
                    href="https://github.com/agreenville/Bipartite-Network/blob/master/LICENSE"),
                  p(""),
-                 p("Version 0.5") 
+                 p("Version 0.6") 
                  
                ),
                
@@ -162,7 +162,7 @@ server <- shinyServer(function(input, output) { #session
     }
 
   }, width=100)
-################  
+ 
   output$nest.matrix <- renderPlot({
     
     if(input$abund=='yes'){
