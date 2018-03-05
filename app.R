@@ -169,6 +169,8 @@ server <- shinyServer(function(input, output) { #session
 
   }, width=100)
  
+  # Display matrix
+  # need a better way to add title
   output$nest.matrix <- renderPlot({
     
     if(input$abund=='yes'){
