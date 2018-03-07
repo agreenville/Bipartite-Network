@@ -52,7 +52,7 @@ ui <- shinyUI(fluidPage(
                  a("MIT License",
                    href="https://github.com/agreenville/Bipartite-Network/blob/master/LICENSE"),
                  p(""),
-                 p("Version 0.7") 
+                 p("Version 1.0.0") 
                  
                ),
                
