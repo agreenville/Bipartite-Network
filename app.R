@@ -1,3 +1,10 @@
+##########################################################################
+# shiny app to generate bipartite graph and nestedness index
+#
+# Aaron Greenville
+#########################################################################
+
+
 library(shiny)
 library(bipartite)
 source("R/Network_functions.R")
@@ -69,7 +76,7 @@ ui <- shinyUI(fluidPage(
              headerPanel('Nestedness') ,
             
              mainPanel(
-               downloadButton('downloadMatrix', 'Download matrix'),
+               downloadButton('downloadMatrix', 'Download matrices'),
                splitLayout(cellWidths = c("10%", "60%", "60%"), verbatimTextOutput('indices'),
                            plotOutput("nest.matrix"), plotOutput("net.sort.matrix")),
                
@@ -219,7 +226,7 @@ server <- shinyServer(function(input, output) { #session
   # Handle the plot download  
   output$downloadPlot <- downloadHandler(
     filename = function() {
-      paste("network_plot", 'png', sep='.')
+      paste("network_graph", 'png', sep='.')
       },
     
     content = function(file) {
@@ -249,7 +256,7 @@ server <- shinyServer(function(input, output) { #session
   # Handle the matrix download  
   output$downloadMatrix <- downloadHandler(
     filename = function() {
-      paste("network_matrix", 'png', sep='.')
+      paste("network_matrices", 'png', sep='.')
     },
     
     content = function(file) {
