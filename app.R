@@ -59,17 +59,17 @@ ui <- shinyUI(fluidPage(
                  p(""),
                  p("Version 1.0.2"),
                  p(""),
-                 h4("Citations:"),
+                 h4("Citation:"),
                  p(span("Greenville, A.C. (2018). "), a("Bipartite Network Analysis vs1.0.2.",
                       href="https://zenodo.org/badge/latestdoi/117910523"),
                    a(tags$img(src="https://zenodo.org/badge/117910523.svg"), href="https://zenodo.org/badge/latestdoi/117910523")),
+                 h4("References:"),
+                 p("Chang, W., Cheng, J., Allaire, J.J., Xie, Y. & McPherson, J. (2017). ", em("Shiny: web application framework for R."), "R
+                        package version 1.0.5. https://CRAN.R-project.org/package=shiny"),
                  p("Dormann, C.F., Gruber, B., & Fruend, J. (2008). Introducing the bipartite package:
                       analysing ecological networks. ", em("R news"), "8/2:8-11."),
                  p("R Core Team. (2017). ", em("R: a language and environment for statistical
-                                               computing."), "R Foundation for Statistical Computing, Vienna, Austria."),
-                 p("Chang, W., Cheng, J., Allaire, J.J., Xie, Y. & McPherson, J. (2017). ", em("Shiny: web application framework for R."), "R
-                        package version 1.0.5. https://CRAN.R-project.org/package=shiny")
-                 
+                                               computing."), "R Foundation for Statistical Computing, Vienna, Austria.")
                    
                    ),
                
