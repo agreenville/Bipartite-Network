@@ -46,7 +46,12 @@ ui <- shinyUI(fluidPage(
                  p("The Bipartite Network analysis app was created with", em("Shiny"), 
                     "and", em("Bipartite"), "package for",
                  span(em("R.")),
-                  "By Aaron Greenville."),
+                  "The app was created for the subject Biodiversity Conservation,
+                 coordinated by Dr Brad Murray at the University of Technology Sydney.
+                 The app was implemented in practicals and assessments,
+                 investigating pollination and conservation,
+                 and designed by the team of Dr Yvonne Davila,
+                 Dr Aaron Greenville, and Dr Brad Murray."),
                  p("Source code can be found on", a("GitHub.",
                     href="https://github.com/agreenville/Bipartite-Network")),
                  a("MIT License",
