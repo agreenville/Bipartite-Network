@@ -57,7 +57,7 @@ ui <- shinyUI(fluidPage(
                  a("MIT License",
                    href="https://github.com/agreenville/Bipartite-Network/blob/master/LICENSE"),
                  p(""),
-                 p("Version 1.0.2"),
+                 p("Version 1.0.3"),
                  p(""),
                  h4("Citation:"),
                  p(span("Greenville, A.C. (2018). "), a("Bipartite Network Analysis vs1.0.2.",
