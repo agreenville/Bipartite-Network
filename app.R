@@ -202,7 +202,7 @@ server <- shinyServer(function(input, output) { #session
       dd<-net.abund.fn(data())    
       
       
-      visweb2(dd$network, main="Original matrix", labsize=1, type = "none") # matrix as data is entered.
+      visweb2(dd$network, main="Original matrix", labsize=1.5, type = "none") # matrix as data is entered.
       #title("Original matrix", line =-20.5)
     }
     
@@ -211,7 +211,7 @@ server <- shinyServer(function(input, output) { #session
       df2 <- net.fn(data())
       
        
-      visweb2(df2,main="Original matrix", labsize=1,  type = "none") # matrix as data is entered.
+      visweb2(df2,main="Original matrix", labsize=1.5,  type = "none") # matrix as data is entered.
      #title("Original matrix", line =-20.5)
     }
     
@@ -224,7 +224,7 @@ server <- shinyServer(function(input, output) { #session
       dd<-net.abund.fn(data())    
       
       
-      visweb2(dd$network, main="Ordered matrix", labsize=1, type = "nested") # sorted by row/colSums
+      visweb2(dd$network, main="Ordered matrix", labsize=1.5, type = "nested") # sorted by row/colSums
       #title("Ordered matrix", line=-20.5)
     }
     
@@ -233,7 +233,7 @@ server <- shinyServer(function(input, output) { #session
       df2 <- net.fn(data())
       
       
-      visweb2(df2, main="Ordered matrix", labsize=1,  type = "nested") # sorted by row/colSums.
+      visweb2(df2, main="Ordered matrix", labsize=1.5,  type = "nested") # sorted by row/colSums.
       #title("Ordered matrix", line=-20.5)
     }
     
