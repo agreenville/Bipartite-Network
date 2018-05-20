@@ -85,6 +85,11 @@ ui <- shinyUI(fluidPage(
                
                mainPanel(
                  downloadButton('downloadPlot', 'Download graph'),
+                   sliderInput("lab.net.scale", "Label size:",step=0.25,
+                         min = 0.25, max = 6, value = 1.5
+             ),
+              print("Adjust slider to increase or decrease label size.
+                   Note: if labels in exported file are not right, adjust slider again and re-download graph."),
                  plotOutput('MyPlot')
                  )
              ),
@@ -96,7 +101,11 @@ ui <- shinyUI(fluidPage(
                downloadButton('downloadMatrix', 'Download matrices'),
                splitLayout(cellWidths = c("10%", "60%", "60%"), verbatimTextOutput('indices'),
                            plotOutput("nest.matrix"), plotOutput("net.sort.matrix")),
-               
+               sliderInput("lab.scale", "Label size:",step=0.25,
+                           min = 0.25, max = 6, value = 1
+               ),
+               print("Adjust slider to increase or decrease label size.
+                     Note: if labels in exported file are not right, adjust slider again and re-download matrices."),
                hr(),
                print("If you cannot see the entire matrix, hover mouse over it to reveal scroll bars.")
                            
@@ -158,7 +167,7 @@ server <- shinyServer(function(input, output) { #session
       
       plotweb(dd$network, low.abun=dd$abund, high.y=1.25,low.y = 0.7, high.abun.col='darkblue',
              low.abun.col='lightgreen', col.interaction="grey90",
-             abuns.type='independent', labsize=1.5, text.rot=90)
+             abuns.type='independent', labsize=input$lab.net.scale, text.rot=90)
           }
     
     if(input$abund=='no'){
@@ -166,7 +175,7 @@ server <- shinyServer(function(input, output) { #session
       df2 <- net.fn(data())
     
       plotweb(df2, high.y=1.25,low.y = 0.7, col.high='darkblue', col.low = 'lightgreen',
-            col.interaction="grey90", labsize=1.5, text.rot=90)
+            col.interaction="grey90", labsize=input$lab.net.scale, text.rot=90)
     }
     
   }, width=1500, height = 500)
@@ -202,7 +211,7 @@ server <- shinyServer(function(input, output) { #session
       dd<-net.abund.fn(data())    
       
       
-      visweb2(dd$network, main="Original matrix", labsize=1, type = "none") # matrix as data is entered.
+      visweb2(dd$network, main="Original matrix", labsize=input$lab.scale, type = "none") # matrix as data is entered.
       #title("Original matrix", line =-20.5)
     }
     
@@ -211,7 +220,7 @@ server <- shinyServer(function(input, output) { #session
       df2 <- net.fn(data())
       
        
-      visweb2(df2,main="Original matrix", labsize=1,  type = "none") # matrix as data is entered.
+      visweb2(df2,main="Original matrix", labsize=input$lab.scale,  type = "none") # matrix as data is entered.
      #title("Original matrix", line =-20.5)
     }
     
@@ -224,7 +233,7 @@ server <- shinyServer(function(input, output) { #session
       dd<-net.abund.fn(data())    
       
       
-      visweb2(dd$network, main="Ordered matrix", labsize=1, type = "nested") # sorted by row/colSums
+      visweb2(dd$network, main="Ordered matrix", labsize=input$lab.scale, type = "nested") # sorted by row/colSums
       #title("Ordered matrix", line=-20.5)
     }
     
@@ -233,7 +242,7 @@ server <- shinyServer(function(input, output) { #session
       df2 <- net.fn(data())
       
       
-      visweb2(df2, main="Ordered matrix", labsize=1,  type = "nested") # sorted by row/colSums.
+      visweb2(df2, main="Ordered matrix", labsize=input$lab.scale, type = "nested") # sorted by row/colSums.
       #title("Ordered matrix", line=-20.5)
     }
     
@@ -254,7 +263,7 @@ server <- shinyServer(function(input, output) { #session
       
       png(file, width = 300, height = 190, units = 'mm', res = 300)
       plotweb(dd$network, low.abun=dd$abund, high.abun.col='darkblue' ,low.abun.col='lightgreen' ,
-                col.interaction="grey90", abuns.type='independent', labsize=1.5,
+                col.interaction="grey90", abuns.type='independent', labsize=input$lab.net.scale,
                 high.y=1.25,low.y = 0.7, text.rot=90)
       dev.off()
       }
@@ -265,7 +274,7 @@ server <- shinyServer(function(input, output) { #session
         
       png(file, width = 300, height = 190, units = 'mm', res = 300)
       plotweb(df2, col.interaction="grey90", col.high='darkblue', col.low = 'lightgreen',
-                labsize=1.5,high.y=1.25,low.y = 0.7, text.rot=90)
+              labsize=input$lab.net.scale,high.y=1.25,low.y = 0.7, text.rot=90)
       dev.off()
         }
     })
@@ -282,12 +291,12 @@ server <- shinyServer(function(input, output) { #session
         
         dd<-net.abund.fn(data())
         
-        png(file, width = 190, height = 230, units = 'mm',res = 300  ) #
+        png(file, width = 190, height = 230, units = 'mm',res = 300) #
         par(mfrow=c(2,1))
-        visweb2(dd$network, main="Original matrix",  labsize=1, type = "none") # matrix as data is entered.
+        visweb2(dd$network, main="Original matrix", plotsize = 10,  labsize=input$lab.scale, type = "none") # matrix as data is entered.
         #title("Original matrix", line =-1)
         
-        visweb2(dd$network, main="Ordered matrix", labsize=1, type = "nested") # sorted by row/colSums
+        visweb2(dd$network, main="Ordered matrix",plotsize = 10, labsize=input$lab.scale, type = "nested") # sorted by row/colSums
         #title("Ordered matrix", line=-1)
         par(mfrow=c(1,1))
         
@@ -299,12 +308,12 @@ server <- shinyServer(function(input, output) { #session
         
         df2 <- net.fn(data())
         
-        png(file, width = 190, height = 230, units = 'mm',res = 300 ) #
+        png(file, width = 190, height = 230, units = 'mm',res = 300) #
         par(mfrow=c(2,1))
-        visweb2(df2, main="Original matrix",labsize=1, type = "none") # matrix as data is entered.
+        visweb2(df2, main="Original matrix",labsize=input$lab.scale,plotsize = 10, type = "none") # matrix as data is entered.
         #title("Original matrix", line =-1)
         
-        visweb2(df2,main="Ordered matrix", labsize=1, type = "nested") # sorted by row/colSums
+        visweb2(df2,main="Ordered matrix", labsize=input$lab.scale,plotsize = 10, type = "nested") # sorted by row/colSums
         #title("Ordered matrix", line=-1)
         par(mfrow=c(1,1))
         dev.off()
