@@ -36,7 +36,7 @@ https://rstudio.com/products/rstudio/download/
 3.	Install required R packages:
 
 ``` 
-install.packages(c("shiny", "bipartite""), dependencies = TRUE) 
+install.packages(c("shiny", "bipartite"), dependencies = TRUE) 
 ```
 
 4.	Download/clone network app from github and unzip it somewhere safe:
@@ -45,7 +45,7 @@ install.packages(c("shiny", "bipartite""), dependencies = TRUE)
 
 1.	Open RStudio project 
 
-![Check](user_guide/network?raw=true) 
+![Check](user_guide/network.PNG?raw=true) 
 
 
 2.	Open script  
