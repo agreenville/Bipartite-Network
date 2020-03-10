@@ -45,15 +45,12 @@ install.packages(c("shiny", "bipartite""), dependencies = TRUE)
 
 1.	Open RStudio project 
 
-``` 
-Network.Rproj
-```
+![Check](user_guide/network?raw=true) 
+
 
 2.	Open script  
 
-```
-app.R
-```
+![Check](user_guide/app.PNG?raw=true) 
 
 3.	Click run app 
 
