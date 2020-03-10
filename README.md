@@ -18,8 +18,8 @@ You can see the app in action here: https://aaronecology.shinyapps.io/Network/
   
 Example datasets from the Bipartite package:
 
-```Safariland.csv  
-Safariland_Abund.csv``` (has plant abundance data in the last column)  
+```Safariland.csv ```  
+``` Safariland_Abund.csv``` (has plant abundance data in the last column)  
 
 ### Summary of setup steps:
 
