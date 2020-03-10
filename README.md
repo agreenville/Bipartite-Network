@@ -49,7 +49,7 @@ Safariland_Abund.csv``` (has plant abundance data in the last column)
 
 Need to make sure it runs “externally” i.e. in the web browser for full functionality.
 
-![](user_guide\https://github.com/agreenville/Bipartite-Network/blob/master/user_guide/run-app-menu2.PNG) 
+![Check](https://github.com/agreenville/Bipartite-Network/blob/master/user_guide/run-app-menu2.PNG) 
 
 
 
