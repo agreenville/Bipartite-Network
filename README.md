@@ -18,8 +18,8 @@ You can see the app in action here: https://aaronecology.shinyapps.io/Network/
   
 Example datasets from the Bipartite package:
 
-Safariland.csv  
-Safariland_Abund.csv (has plant abundance data in the last column)  
+```Safariland.csv  
+Safariland_Abund.csv``` (has plant abundance data in the last column)  
 
 ### Summary of setup steps:
 
@@ -41,4 +41,16 @@ Safariland_Abund.csv (has plant abundance data in the last column)
 
 2.	Open script  
 
-3.	Click run app (need to make sure it runs “externally” i.e. in the web browser for full functionality) 
+```app.R ```
+
+3.	Click run app 
+
+![Click on arrow](user_guide\run-app-menu.PNG)
+
+Need to make sure it runs “externally” i.e. in the web browser for full functionality.
+
+![](user_guide\run-app-menu2.PNG) 
+
+
+
+
