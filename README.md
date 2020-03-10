@@ -18,18 +18,26 @@ You can see the app in action here: https://aaronecology.shinyapps.io/Network/
   
 Example datasets from the Bipartite package:
 
-```Safariland.csv ```  
-``` Safariland_Abund.csv``` (has plant abundance data in the last column)  
+```
+Safariland.csv  
+Safariland_Abund.csv (has plant abundance data in the last column)  
+```
 
 ### Summary of setup steps:
 
 1.	Download R and install it.  
 
+https://www.r-project.org/
+
 2.	Download RStudio and install it.  
+
+https://rstudio.com/products/rstudio/download/
 
 3.	Install required R packages:
 
-``` install.packages(c("shiny", "bipartite""), dependencies = TRUE) ```
+``` 
+install.packages(c("shiny", "bipartite""), dependencies = TRUE) 
+```
 
 4.	Download/clone network app from github and unzip it somewhere safe:
 
@@ -37,11 +45,15 @@ Example datasets from the Bipartite package:
 
 1.	Open RStudio project 
 
-``` Network.Rproj ```
+``` 
+Network.Rproj
+```
 
 2.	Open script  
 
-```app.R ```
+```
+app.R
+```
 
 3.	Click run app 
 
