@@ -57,7 +57,7 @@ app.R
 
 3.	Click run app 
 
-![Click on arrow](https://github.com/agreenville/Bipartite-Network/blob/master/user_guide/run-app-menu.PNG?raw=TRUE)
+![Click on arrow](user_guide/run-app-menu.PNG?raw=TRUE)
 
 Need to make sure it runs “externally” i.e. in the web browser for full functionality.
 
