@@ -20,3 +20,25 @@ Example datasets from the Bipartite package:
 
 Safariland.csv  
 Safariland_Abund.csv (has plant abundance data in the last column)  
+
+### Summary of setup steps:
+
+1.	Download R and install it.  
+
+2.	Download RStudio and install it.  
+
+3.	Install required R packages:
+
+``` install.packages(c("shiny", "bipartite""), dependencies = TRUE) ```
+
+4.	Download/clone network app from github and unzip it somewhere safe:
+
+### To run app via RStudio: 
+
+1.	Open RStudio project 
+
+``` Network.Rproj ```
+
+2.	Open script  
+
+3.	Click run app (need to make sure it runs “externally” i.e. in the web browser for full functionality) 
